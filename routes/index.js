@@ -100,5 +100,9 @@ router.get('/posts/:post/comments/:comment', function(req, res){
     res.json(req.comment);
 });            
 
+router.post('/api/photo', function(req, res, next){
+    console.log(req.files);
+    res.json(req.files);
+});
 
 module.exports = router;
