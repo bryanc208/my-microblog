@@ -27,9 +27,16 @@ function($scope, posts) {
 }   
 ]);
 
-app.factory('posts', [function(){
+app.factory('posts', ['$http', function($http){
     var postsObject = {
         posts: []
     };
+    
+    postsObject.getAll = function(){
+        return $http.get('/posts').success(function(data){
+            angular.copy(data,postsObject.posts);
+        });
+    };
+    
     return postsObject;
 }])
