@@ -70,7 +70,6 @@ app.factory('posts', ['$http', function($http){
     };
     
     postsObject.createNewPost = function(post){
-        console.log(post);
         return $http.post('/posts/', post).success(function(data){
             postsObject.posts.push(data);
         });

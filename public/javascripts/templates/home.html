@@ -1,11 +1,12 @@
 <div class="row" style="padding: 1em">    
-    <p>Welcome! Please type in the name of an existing blog or create your own by coming up with a unique name!
-    </p>
+    <p>Welcome! Please type in the name of an existing blog or create your own by coming up with a unique name! The length is limited to 20 characters with <strong>no spaces and no special characters!</strong></p>
+    <p>Press <strong>Enter</strong> to navigate to the blog!</p>
     <input 
            type="text" 
            class="form-control" 
            ng-model="author" 
            placeholder="Blog name:"
-           ng-enter="goToBlog(author)">
+           ng-enter="goToBlog(author)"
+           maxlength="20">
     </input>
 </div>

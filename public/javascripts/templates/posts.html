@@ -30,9 +30,11 @@ ng-repeat="comment in post.comments | orderBy: '-date'">
         <input type="text" class="form-control"
         placeholder="What is your name?" 
         ng-model="author"></input>
-        <input type="text" class="form-control" 
+        <textarea type="text" class="form-control" 
         placeholder="Write your comment!"
-        ng-model="body"></input>
+        ng-model="body"
+        maxlength="80"></textarea>
+        <span>{{body.length}}/80</span>
     </div>
     <button type="submit" class="btn btn-primary">Post</button>
 </form>
