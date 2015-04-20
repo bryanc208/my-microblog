@@ -24,7 +24,6 @@ router.get('/posts', function(req, res, next){
 
 router.post('/posts', function(req, res, next){
     var post = new Blog(req.body);
-    console.log(req.body);
     post.save(function(err, post){
         if(err){
             return next(err);
@@ -49,7 +48,7 @@ router.param('post', function(req, res, next, id){
 });
 
 router.get('/posts/:post', function(req, res){
-    req.blogPost.populate('comments', function(err,post){
+    req.blogPost.populate('comments', function(err, post){
         if(err) {
             return next(err);
         }
@@ -58,11 +57,12 @@ router.get('/posts/:post', function(req, res){
 });            
 
 router.delete('/posts/:post/remove', function(req, res, next){
-    req.blogPost.remove(function(err, post){
-        if(err){
+    var postId = req.blogPost._id;
+    Blog.findByIdAndRemove(postId, function(err, post){
+        if (err){
             return next(err);
         }
-        res.json(req.blogPost);
+        res.json(post);
     });
 });
 

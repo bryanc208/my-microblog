@@ -44,9 +44,8 @@ app.factory('posts', ['$http', function($http){
     };
     
     postsObject.removePostFromDB = function(post){
-        console.log(post);
         return $http.delete('/posts/' + post._id + '/remove/').then(function(res){
-            return res.data;
+            postsObject.posts.pop(post);
         });
     };
     
