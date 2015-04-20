@@ -1,0 +1,39 @@
+<div class="page-header">
+    <h1>{{post.author}}'s Blog</h1>
+</div>
+<div class="blogPost">
+    <div class="heading">
+        <h3>{{post.title}}</h3>
+        <span> By {{post.author}}</span>
+    </div>
+    <div class="image">
+        <img src={{post.imageURL}}>
+    </div>
+    <div class="content">
+        <p>{{post.body}}</p>
+    </div>
+</div>
+<div class="heading"></div>
+<div class="blogPost"
+ng-repeat="comment in post.comments | orderBy: '-date'">
+    <span class="commentTitle">{{comment.author}}: </span>
+    <p style="font-size 16px; margin-left 10px;">
+        {{comment.body}}
+    </p>
+</div>
+<div class="blogPost">
+<form ng-submit="postComment()"
+    style="margin-top: 20px;">
+    <h3 style="margin-bottom: 5px">Comment:</h3>
+
+    <div class="form-group">
+        <input type="text" class="form-control"
+        placeholder="What is your name?" 
+        ng-model="author"></input>
+        <input type="text" class="form-control" 
+        placeholder="Write your comment!"
+        ng-model="body"></input>
+    </div>
+    <button type="submit" class="btn btn-primary">Post</button>
+</form>
+</div>

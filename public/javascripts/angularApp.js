@@ -7,18 +7,12 @@ function($stateProvider, $urlRouterProvider){
     $stateProvider
         .state('home', {
             url: '/home',
-            templateUrl: '/home.html',
-            controller: 'MainCtrl',
-            resolve: {
-                postPromise: ['posts', function(posts){
-                    var allPosts = posts.getAllPosts();
-                    return allPosts;
-                }]
-            }
+            templateUrl: '/javascripts/templates/home.html',
+            controller: 'HomeCtrl',
         })
         .state('posts', {
             url: '/posts/:id',
-            templateUrl: '/posts.html',
+            templateUrl: '/javascripts/templates/posts.html',
             controller: 'PostsCtrl',
             resolve: {
                 post: ['$stateParams', 'posts', function($stateParams, posts){
@@ -29,8 +23,8 @@ function($stateProvider, $urlRouterProvider){
         })
         .state('author', {
             url: '/:author/home',
-            templateUrl: '/home.html',
-            controller: 'MainCtrl',
+            templateUrl: '/javascripts/templates/blog.html',
+            controller: 'BlogCtrl',
             resolve: {
                 post: ['$stateParams', 'posts', function($stateParams, posts){
                     var authoredPosts = posts.getAllPostsByAuthor($stateParams.author);
@@ -44,7 +38,8 @@ function($stateProvider, $urlRouterProvider){
 
 app.factory('posts', ['$http', function($http){
     var postsObject = {
-        posts: []
+        posts: [],
+        author: ""
     };
     
     postsObject.getSinglePost = function(id){
@@ -67,7 +62,9 @@ app.factory('posts', ['$http', function($http){
     };
     
     postsObject.getAllPostsByAuthor = function(author){
+        var author = author;
         return $http.get('/' + author + '/home').success(function(data){
+            postsObject.author = author;
             angular.copy(data, postsObject.posts);
         });
     };
@@ -93,19 +90,39 @@ app.factory('posts', ['$http', function($http){
     return postsObject;
 }]);
 
-app.controller('MainCtrl', [
+app.directive('ngEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.ngEnter);
+                });
+                event.preventDefault();
+            }
+        });
+    };
+});
+
+app.controller('HomeCtrl', function($scope, $location){
+    $scope.goToBlog = function(data){
+        $location.path(data+'/home');
+    }
+});
+
+app.controller('BlogCtrl', [
 '$scope',
 'posts',
 '$upload',
 function($scope, posts, $upload) {
     $scope.posts = posts.posts;
+    $scope.author = posts.author;
     $scope.addPost = function(){
         if(!$scope.title || $scope.title === ''){
             alert("Enter a valid title!");
             return;
         }
         posts.createNewPost({
-            author: "Man",
+            author: $scope.author,
             title: $scope.title,
             body: $scope.body,
             imageURL: $scope.imageURL
@@ -140,7 +157,6 @@ function($scope, posts, $upload) {
     }
 }   
 ]);
-
 
 app.controller('PostsCtrl', [
 '$scope',
