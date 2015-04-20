@@ -113,12 +113,18 @@ router.get('/posts/:post/comments/:comment', function(req, res){
     res.json(req.comment);
 });            
 
+<<<<<<< HEAD
 router.post('/api/upload', function(req, res){
     req.busboy.on('file', function(fieldname, file, filename){
         var saveTo = path.join(__dirname + "/../public/images/", path.basename(filename));
         file.pipe(fs.createWriteStream(saveTo));
         res.end(path.join("/images/", path.basename(filename)));
     });
+=======
+router.post('/api/photo', function(req, res, next){
+    console.log(req.files);
+    res.json(req.files);
+>>>>>>> 780c87fd3712346f72eaa051a06820a4fde86f9e
 });
 
 module.exports = router;
