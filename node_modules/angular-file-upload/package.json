@@ -1,0 +1,52 @@
+{
+  "name": "angular-file-upload",
+  "version": "1.6.4",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-text-replace": "~0.3.12",
+    "grunt-git": "~0.2.14"
+  },
+  "description": "An AngularJS directive for file upload using HTML5 with FileAPI polyfill for unsupported browsers",
+  "main": "dist/angular-file-upload.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danialfarid/angular-file-upload"
+  },
+  "author": {
+    "name": "https://github.com/danialfarid/angular-file-upload/graphs/contributors"
+  },
+  "bugs": {
+    "url": "https://github.com/danialfarid/angular-file-upload/issues"
+  },
+  "homepage": "https://github.com/danialfarid/angular-file-upload",
+  "license": "MIT",
+  "_id": "angular-file-upload@1.6.4",
+  "_shasum": "0023be6c52c25832a0932a0905d99559b2144798",
+  "_from": "angular-file-upload@",
+  "_npmVersion": "1.4.9",
+  "_npmUser": {
+    "name": "pitbeast",
+    "email": "PitBeast777@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "ws-malysheva",
+      "email": "ws.malysheva@gmail.com"
+    },
+    {
+      "name": "pitbeast",
+      "email": "PitBeast777@gmail.com"
+    }
+  ],
+  "dist": {
+    "shasum": "0023be6c52c25832a0932a0905d99559b2144798",
+    "tarball": "http://registry.npmjs.org/angular-file-upload/-/angular-file-upload-1.6.4.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/angular-file-upload/-/angular-file-upload-1.6.4.tgz"
+}

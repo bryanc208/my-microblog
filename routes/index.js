@@ -9,6 +9,9 @@ router.get('/', function(req, res, next) {
 var mongoose = require('mongoose');
 var Blog = mongoose.model('Blog');
 var Comment = mongoose.model('Comment');
+var fs = require('fs');
+var path = require('path');
+var os = require('os');
 
 router.get('/posts', function(req, res, next){
     Blog.find(function(err, posts){
@@ -21,7 +24,7 @@ router.get('/posts', function(req, res, next){
 
 router.post('/posts', function(req, res, next){
     var post = new Blog(req.body);
-    
+    console.log(req.body);
     post.save(function(err, post){
         if(err){
             return next(err);
@@ -53,6 +56,16 @@ router.get('/posts/:post', function(req, res){
         res.json(req.blogPost);        
     });
 });            
+
+router.delete('/posts/:post/remove', function(req, res, next){
+    req.blogPost.remove(function(err, post){
+        if(err){
+            return next(err);
+        }
+        res.json(req.blogPost);
+    });
+});
+
 
 router.put('/posts/:post/likePost', function(req, res, next){
     req.blogPost.likePost(function(err, post){
@@ -100,5 +113,12 @@ router.get('/posts/:post/comments/:comment', function(req, res){
     res.json(req.comment);
 });            
 
+router.post('/api/upload', function(req, res){
+    req.busboy.on('file', function(fieldname, file, filename){
+        var saveTo = path.join(__dirname + "/../public/images/", path.basename(filename));
+        file.pipe(fs.createWriteStream(saveTo));
+        res.end(path.join("/images/", path.basename(filename)));
+    });
+});
 
 module.exports = router;

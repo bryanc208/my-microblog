@@ -1,4 +1,4 @@
-var app = angular.module("myBlog", ['ui.router']);
+var app = angular.module("myBlog", ['ui.router', 'angularFileUpload']);
 
 app.config([
 '$stateProvider',
@@ -37,7 +37,15 @@ app.factory('posts', ['$http', function($http){
     };
     
     postsObject.getSinglePost = function(id){
+        console.log(id);
         return $http.get('/posts/' + id).then(function(res){
+            return res.data;
+        });
+    };
+    
+    postsObject.removePostFromDB = function(post){
+        console.log(post);
+        return $http.delete('/posts/' + post._id + '/remove/').then(function(res){
             return res.data;
         });
     };
@@ -64,14 +72,24 @@ app.factory('posts', ['$http', function($http){
     postsObject.postComment = function(id, comment){
         return $http.post('/posts/' + id + '/comments', comment);
     };
-    
+
     return postsObject;
 }]);
+
+app.directive(function(){
+    return function(scope, element, attrs){
+        scope.createHiddenInputTag = function(data){
+            var input = angular.element('<input type="hidden" ng-model="imageURL" value="' + data + '"</input>');
+            element.append(input);
+        }
+    }
+});
 
 app.controller('MainCtrl', [
 '$scope',
 'posts',
-function($scope, posts) {
+'$upload',
+function($scope, posts, $upload) {
     $scope.posts = posts.posts;
     $scope.addPost = function(){
         if(!$scope.title || $scope.title === ''){
@@ -80,15 +98,37 @@ function($scope, posts) {
         }
         posts.createNewPost({
             title: $scope.title,
-            body: $scope.body
+            body: $scope.body,
+            imageURL: $scope.imageURL
         });
         $scope.title = '';
         $scope.body = '';
+        $scope.imageURL = $scope.imageURL;
     };
     
     $scope.likePost = function(post){
         posts.incrementLikes(post);
     };
+    
+    $scope.deletePost = function(post){
+        posts.removePostFromDB(post);
+    };
+    
+    $scope.onFileSelect = function($files){
+        for(var i=0; i<$files.length; i++){
+            var file = $files[i];
+            $scope.upload = $upload.upload({
+                url: '/api/upload',
+                method: 'POST',
+                data: {myObj: $scope.userImage},
+                file: file,
+            }).progress(function(evt){
+                console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+            }).success(function(data, status, headers, config){
+                $scope.imageURL = data;
+            });
+        }
+    }
 }   
 ]);
 
