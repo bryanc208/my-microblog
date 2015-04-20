@@ -26,6 +26,17 @@ function($stateProvider, $urlRouterProvider){
                     return singlePost;    
                 }]
             }
+        })
+        .state('author', {
+            url: '/:author/home',
+            templateUrl: '/home.html',
+            controller: 'MainCtrl',
+            resolve: {
+                post: ['$stateParams', 'posts', function($stateParams, posts){
+                    var authoredPosts = posts.getAllPostsByAuthor($stateParams.author);
+                    return authoredPosts;    
+                }]
+            }
         });
     $urlRouterProvider.otherwise('home');
 }
@@ -55,8 +66,15 @@ app.factory('posts', ['$http', function($http){
         });
     };
     
+    postsObject.getAllPostsByAuthor = function(author){
+        return $http.get('/' + author + '/home').success(function(data){
+            angular.copy(data, postsObject.posts);
+        });
+    };
+    
     postsObject.createNewPost = function(post){
-        return $http.post('/posts', post).success(function(data){
+        console.log(post);
+        return $http.post('/posts/', post).success(function(data){
             postsObject.posts.push(data);
         });
     };
@@ -75,15 +93,6 @@ app.factory('posts', ['$http', function($http){
     return postsObject;
 }]);
 
-app.directive(function(){
-    return function(scope, element, attrs){
-        scope.createHiddenInputTag = function(data){
-            var input = angular.element('<input type="hidden" ng-model="imageURL" value="' + data + '"</input>');
-            element.append(input);
-        }
-    }
-});
-
 app.controller('MainCtrl', [
 '$scope',
 'posts',
@@ -96,13 +105,14 @@ function($scope, posts, $upload) {
             return;
         }
         posts.createNewPost({
+            author: "Man",
             title: $scope.title,
             body: $scope.body,
             imageURL: $scope.imageURL
         });
         $scope.title = '';
         $scope.body = '';
-        $scope.imageURL = $scope.imageURL;
+        $scope.imageURL = '';
     };
     
     $scope.likePost = function(post){

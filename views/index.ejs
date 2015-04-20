@@ -8,7 +8,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.min.js"</script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-
+        <link rel="stylesheet" href="/stylesheets/style.css">
+        <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
     </head>
     <body ng-app="myBlog">
         <div class="row">      
@@ -19,26 +21,28 @@
 
         <script type="text/ng-template" id="/home.html">
             <div class="page-header">
-                <h1>Blog</h1>
+                <h1>{{posts[0].author}}'s Blog</h1>
             </div>
-            <div ng-repeat="post in posts | orderBy: '-date'">
-                <span class="glyphicon glyphicon-remove"
-                    ng-click="deletePost(post)"></span>
-                <div class="title">
+            <div class="blogPost" ng-repeat="post in posts | orderBy: '-date'">
+                <div class="heading">
                     <h3>{{post.title}}</h3>
+                    <span> By {{post.author}}</span>
                 </div>
-                <div id="image">
+                <div class="image">
                     <img src={{post.imageURL}}>
                 </div>
-                <div>
-                    {{post.body}}
+                <div class="content">
+                    <p>{{post.body}}</p>
                 </div>
-                {{post.likes}}
-                <span class="glyphicon glyphicon-thumbs-up"
-                      ng-click="likePost(post)"></span>
-                <span>
-                    <a href="#/posts/{{post._id}}">Comments</a>
-                </span>
+                <div class="footer">
+                    <span>
+                        <a class="button" href="#/posts/{{post._id}}">Comments</a>
+                    </span>
+                    <span class="button glyphicon glyphicon-thumbs-up"
+                        ng-click="likePost(post)">  {{post.likes}}</span>
+                    <span class="button glyphicon glyphicon-remove"
+                        ng-click="deletePost(post)"></span>
+                </div>
             </div>
             <form ng-submit="addPost()"
                   style="margin-top: 30px"
@@ -58,24 +62,39 @@
                 </div>
                 <input ng-model="image" ng-file-select="onFileSelect($files)" name="userImage" type="file"></input>
                 <input ng-model="imageURL" type="text" style="display: none"></input>
+                <input ng-model="author" type="text" style="display: none" ng-value="Bryan"></input>
                 <button class="form-button" type="submit">Post</button>
             </form>
         </script>
         
         <script type="text/ng-template" id="/posts.html">
-            <div class="page header">
-                <h3>{{post.title}}</h3>
-                <p>{{post.body}}</p>
+            <div class="page-header">
+                <h1>{{post.author}}'s Blog</h1>
             </div>
-            <div ng-repeat="comment in post.comments | orderBy: '-date'">
-                By {{comment.author}} 
-                <span style="font-size 16px; margin-left 10px;">
+            <div class="blogPost">
+                <div class="heading">
+                    <h3>{{post.title}}</h3>
+                    <span> By {{post.author}}</span>
+                </div>
+                <div class="image">
+                    <img src={{post.imageURL}}>
+                </div>
+                <div class="content">
+                    <p>{{post.body}}</p>
+                </div>
+            </div>
+            <div class="heading"></div>
+            <div class="blogPost"
+            ng-repeat="comment in post.comments | orderBy: '-date'">
+                <span class="commentTitle">{{comment.author}}: </span>
+                <p style="font-size 16px; margin-left 10px;">
                     {{comment.body}}
-                </span>
+                </p>
             </div>
+            <div class="blogPost">
             <form ng-submit="postComment()"
-                style="margin-top: 30px;">
-                <h3>Comment:</h3>
+                style="margin-top: 20px;">
+                <h3 style="margin-bottom: 5px">Comment:</h3>
                 
                 <div class="form-group">
                     <input type="text" class="form-control"
@@ -87,6 +106,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Post</button>
             </form>
+            </div>
         </script>
     </body>
 </html>

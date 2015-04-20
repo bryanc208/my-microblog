@@ -11,27 +11,7 @@ var Blog = mongoose.model('Blog');
 var Comment = mongoose.model('Comment');
 var fs = require('fs');
 var path = require('path');
-var os = require('os');
 
-router.get('/posts', function(req, res, next){
-    Blog.find(function(err, posts){
-        if(err){
-            return next(err);
-        }
-        res.json(posts);
-    });
-});
-
-router.post('/posts', function(req, res, next){
-    var post = new Blog(req.body);
-    post.save(function(err, post){
-        if(err){
-            return next(err);
-        }
-        res.json(post);
-    });
-});
-              
 router.param('post', function(req, res, next, id){
     var query = Blog.findById(id);
     
@@ -47,6 +27,44 @@ router.param('post', function(req, res, next, id){
     });
 });
 
+router.param('author', function(req, res, next, name){
+    var query = Blog.find({author: name});
+    query.exec(function (err, authoredBlogPosts){
+        if(err){
+            return next(err);
+        }
+        if(!authoredBlogPosts){
+            return next(new Error("Can't find author"));
+        }
+        req.authoredBlogPosts = authoredBlogPosts;
+        return next();
+    });
+});
+
+router.get('/:author/home', function(req, res){
+    res.json(req.authoredBlogPosts);
+});
+
+router.get('/posts', function(req, res, next){
+    Blog.find(function(err, posts){
+        if(err){
+            return next(err);
+        }
+        res.json(posts);
+    });
+});
+
+router.post('/posts', function(req, res, next){
+    var post = new Blog(req.body);
+    console.log(req.body);
+    post.save(function(err, post){
+        if(err){
+            return next(err);
+        }
+        res.json(post);
+    });
+});
+              
 router.get('/posts/:post', function(req, res){
     req.blogPost.populate('comments', function(err, post){
         if(err) {
@@ -120,4 +138,5 @@ router.post('/api/upload', function(req, res){
         res.end(path.join("/images/", path.basename(filename)));
     });
 });
+
 module.exports = router;

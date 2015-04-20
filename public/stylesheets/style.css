@@ -1,8 +1,80 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+body{
+    background-color: #FFF;
+    font-weight: 400;
+    font-family: 'Raleway', sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+
+.button{
+	border: none;
+	border-radius: 1em;
+	padding: 10px 20px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	display: inline-block;
+	background-color: #4387fd;
+	color: #fff;
+	}
+
+.button:hover{
+	box-shadow: 1px 1px blue;
+}
+
+.page-header{
+    text-align: left;
+    border-bottom: 2px solid #eee;
+}
+
+.row{
+    text-align: center;
+}
+
+.commentTitle{
+    font-weight: bold;
+}
+.blogPost{
+    text-align: left;
+    background: #FFF;
+    padding: 0;
+    overflow: hidden;
+    margin: auto;
+    margin-bottom: 25px;
+    width: 80%;
+}
+
+.blogPost h3{
+    margin: 0px;
+    padding-botton: 0px;
+    font-family: 'Oxygen', sans-serif;
+    font-size 22pt;
+}
+
+.blogPost p{
+    margin: 0px;
+    padding: 10px;
+}
+
+.blogPost img{
+    max-width: 100%;
+    hegith: auto;
+}
+
+.heading{
+    background: #fff;
+    border-bottom: 1px solid #d1d1d1;
+    color: #333;
+    padding: 5px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.content{
+    padding-left: 2.8125rem;
+}
+
+.footer{
+    text-align: right;
 }
