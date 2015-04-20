@@ -119,5 +119,5 @@ router.post('/api/upload', function(req, res){
         file.pipe(fs.createWriteStream(saveTo));
         res.end(path.join("/images/", path.basename(filename)));
     });
-
+});
 module.exports = router;

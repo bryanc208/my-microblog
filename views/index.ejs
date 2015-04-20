@@ -40,11 +40,6 @@
                     <a href="#/posts/{{post._id}}">Comments</a>
                 </span>
             </div>
-            <form id="imageUploadForm" method="post" 
-            enctype="multipart/form-data" action="/api/photo">
-                <input type="file" name="photo">
-                <input type="submit" value="Upload Image" name="submit">
-            </form>
             <form ng-submit="addPost()"
                   style="margin-top: 30px"
                   id="newPostForm">
