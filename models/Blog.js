@@ -8,7 +8,8 @@ var blogSchema = new Schema({
     likes: { type: Number, default: 0 },
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
     date: { type: Date, default: Date.now },
-    imageURL: String
+    imagePath: String,
+    img: { data: String, contentType: String }
 });
 
 blogSchema.methods.likePost = function(cb){

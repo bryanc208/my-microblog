@@ -124,11 +124,11 @@ function($scope, posts, $upload) {
             author: $scope.author,
             title: $scope.title,
             body: $scope.body,
-            imageURL: $scope.imageURL
+            imagePath: $scope.imagePath
         });
         $scope.title = '';
         $scope.body = '';
-        $scope.imageURL = '';
+        $scope.imagePath = '';
     };
     
     $scope.likePost = function(post){
@@ -150,7 +150,7 @@ function($scope, posts, $upload) {
             }).progress(function(evt){
                 console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
             }).success(function(data, status, headers, config){
-                $scope.imageURL = data;
+                $scope.imagePath = data;
             });
         }
     }
@@ -163,7 +163,6 @@ app.controller('PostsCtrl', [
 'post',
 function($scope, posts, post){
     $scope.post = post;
-    
     $scope.postComment = function(){
         if($scope.body === '') {
             return;
