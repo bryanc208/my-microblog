@@ -86,10 +86,12 @@ router.get('/posts/:post/comments/:comment', function(req, res){
 router.post('/posts', function(req, res, next){
     var post = new Blog(req.body);
     var imgPath = req.body.imagePath;
-    var imgData = fs.readFileSync(imgPath);
-    var imgType = mime.lookup(imgPath);
-    post.img.data = imgData.toString('base64');
-    post.img.contentType = imgType;
+    if(imgPath){
+        var imgData = fs.readFileSync(imgPath);
+        var imgType = mime.lookup(imgPath);
+        post.img.data = imgData.toString('base64');
+        post.img.contentType = imgType;
+    }
     post.save(function(err, post){
         if(err){
             return next(err);

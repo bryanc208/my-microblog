@@ -8,6 +8,9 @@ a {
   color: #00B7FF;
 }
 
+.image{
+    text-align: center;
+}
 .button{
 	border: none;
 	border-radius: 1em;
