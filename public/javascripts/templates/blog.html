@@ -7,7 +7,7 @@
         <span> By {{post.author}} </span>
     </div>
     <div class="image">
-        <img ng-src="data:{{post.img.contentType}};base64, {{post.img.data.toString('base64')}}">
+        <img ng-src="data:{{post.img.contentType}};base64, {{post.img.data}}">
     </div>
     <div class="content">
         <p>{{post.body}}</p>
