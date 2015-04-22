@@ -20,6 +20,14 @@ Tested only on Chrome. May not work well with other browsers.
 
 All dependencies have been well defined, simply clone the repository and run:
 
-  `npm install`
+  `npm install` from the cloned directory.
   
-Point the MongoDB `dbpath` to the `data` folder of the repository.
+Make sure to have MongoDB running in the `data` directory. Simply navigate to the `data` directory and type:
+
+  `mongod`
+
+Then, run a seperate terminal/cmd window and within the app directory (/../GitHub/my-microblog) run:
+
+  `npm start`
+  
+That's it! You should now be able to go to `http://localhost:3000` and type in the name of a blog of your choice!
